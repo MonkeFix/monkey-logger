@@ -7,26 +7,30 @@ import (
 	"time"
 )
 
-const (
-	DEBUG = iota
-	TEST
-	PROD
-)
-
 type Logger struct {
 	prefix string
-	level  int
+	level  Level
 	out    io.Writer
 }
 
 func NewLogger() *Logger {
 	return &Logger{
 		prefix: "monkey-logger",
+		level:  Debug,
+		out:    os.Stdout,
 	}
+}
+
+func (l *Logger) SetPrefix(prefix string) {
+	l.prefix = prefix
+}
+
+func (l *Logger) SetLevel(level Level) {
+	l.level = level
 }
 
 func (l *Logger) Info(message string) {
 	timestamp := time.Now().Format(time.RFC3339)
 	log := fmt.Sprintf("%s [%s] %s: %s", l.prefix, timestamp, "DEBUG", message)
-	fmt.Fprintln(os.Stdout, log)
+	fmt.Fprintln(l.out, log)
 }
