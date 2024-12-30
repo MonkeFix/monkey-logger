@@ -2,7 +2,7 @@ package monlog
 
 import "fmt"
 
-type Level int8
+type Level int32
 
 const (
 	Debug Level = iota
