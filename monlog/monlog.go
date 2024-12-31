@@ -32,29 +32,30 @@ func (l *Logger) SetLevel(level Level) {
 }
 
 func (l *Logger) Info(message string) {
-	timestamp := time.Now().Format(time.RFC3339)
-	log := fmt.Sprintf("%s [%s] %s: %s", l.prefix, timestamp, "INFO", message)
-	fmt.Fprintln(l.out, log)
+	l.Log(message, "INFO", nil)
 }
 
 func (l *Logger) Debug(message string) {
 	if l.level != Debug {
 		return
 	}
-	timestamp := time.Now().Format(time.RFC3339)
-	log := fmt.Sprintf("%s [%s] %s: %s", l.prefix, timestamp, "DEBUG", message)
-	fmt.Fprintln(l.out, log)
+	l.Log(message, "DEBUG", nil)
 }
 
 func (l *Logger) Error(message string, err error) {
-	timestamp := time.Now().Format(time.RFC3339)
-	log := fmt.Sprintf("%s [%s] %s: %s, error: %s", l.prefix, timestamp, "ERROR", message, err)
-	fmt.Fprintln(l.out, log, err)
+	l.Log(message, "ERROR", err)
 }
 
 func (l *Logger) Fatal(message string, err error) {
-	timestamp := time.Now().Format(time.RFC3339)
-	log := fmt.Sprintf("%s [%s] %s: %s, error: %s", l.prefix, timestamp, "ERROR", message, err)
-	fmt.Fprintln(l.out, log, err)
+	l.Log(message, "FATAL", err)
 	panic(err)
+}
+
+func (l *Logger) Log(message, logtype string, err error) {
+	timestamp := time.Now().Format(time.RFC3339)
+	log := fmt.Sprintf("%s [%s] %s: %s", l.prefix, timestamp, logtype, message)
+	if err != nil {
+		log += fmt.Sprintf(", error: %s", err)
+	}
+	fmt.Fprintln(l.out, log)
 }
