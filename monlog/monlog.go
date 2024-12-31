@@ -48,6 +48,6 @@ func (l *Logger) Debug(message string) {
 
 func (l *Logger) Error(message string, err error) {
 	timestamp := time.Now().Format(time.RFC3339)
-	log := fmt.Sprintf("%s [%s] %s: %s", l.prefix, timestamp, "ERROR", message)
-	fmt.Fprintln(l.out, log)
+	log := fmt.Sprintf("%s [%s] %s: %s, error: %s", l.prefix, timestamp, "ERROR", message, err)
+	fmt.Fprintln(l.out, log, err)
 }
