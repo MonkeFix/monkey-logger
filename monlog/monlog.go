@@ -14,7 +14,7 @@ type Logger struct {
 	out    io.Writer
 }
 
-func NewLogger() *Logger {
+func New() *Logger {
 	return &Logger{
 		prefix: "monkey-logger",
 		level:  Debug,
@@ -50,4 +50,11 @@ func (l *Logger) Error(message string, err error) {
 	timestamp := time.Now().Format(time.RFC3339)
 	log := fmt.Sprintf("%s [%s] %s: %s, error: %s", l.prefix, timestamp, "ERROR", message, err)
 	fmt.Fprintln(l.out, log, err)
+}
+
+func (l *Logger) Fatal(message string, err error) {
+	timestamp := time.Now().Format(time.RFC3339)
+	log := fmt.Sprintf("%s [%s] %s: %s, error: %s", l.prefix, timestamp, "ERROR", message, err)
+	fmt.Fprintln(l.out, log, err)
+	panic(err)
 }
