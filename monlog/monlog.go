@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"sync/atomic"
 	"time"
 )
 
@@ -27,7 +26,8 @@ func (l *Logger) SetPrefix(prefix string) {
 }
 
 func (l *Logger) SetLevel(level Level) {
-	atomic.StoreInt32((*int32)(&l.level), int32(level))
+	l.level = level
+	// atomic.StoreInt32((*int32)(&l.level), int32(level))
 }
 
 func (l *Logger) Info(message string) {
