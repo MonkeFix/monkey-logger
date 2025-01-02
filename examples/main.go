@@ -3,7 +3,7 @@ package main
 import "github.com/MonkeFix/monkey-logger/monlog"
 
 func main() {
-	l := monlog.New()
+	l := monlog.Default()
 
 	l.SetPrefix("monkey-fix")
 	l.SetLevel(monlog.Test)

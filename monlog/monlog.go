@@ -13,7 +13,15 @@ type Logger struct {
 	out    io.Writer
 }
 
-func New() *Logger {
+func New(prefix string, level Level, out io.Writer) *Logger {
+	return &Logger{
+		prefix: prefix,
+		level:  level,
+		out:    out,
+	}
+}
+
+func Default() *Logger {
 	return &Logger{
 		prefix: "monkey-logger",
 		level:  Debug,
